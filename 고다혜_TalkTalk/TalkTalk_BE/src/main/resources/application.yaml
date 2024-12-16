@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    include: oauth
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    open-in-view: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:${MYSQL_PORT}/${MYSQL_SCHEMA}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+
+  config:
+    import: optional:file:.env[.properties]
