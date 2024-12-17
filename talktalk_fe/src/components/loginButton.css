@@ -1,0 +1,38 @@
+.loginButtonLogo {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.loginButtonText {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.oauthLoginButton {
+  padding: 10px 20px;
+  display: inline-block;
+  color: #444;
+  /* width: 190px; */
+  border-radius: 5px;
+  border: thin solid #cccccc;
+  box-shadow: 1px 1px 1px rgb(207, 207, 207);
+  white-space: nowrap;
+}
+
+
+.Google {
+  background-color: white;
+}
+
+.카카오 {
+  background-color: #FEE500;
+}
+
+.oauthLoginButton:hover {
+  cursor: pointer;
+  filter: brightness(0.95);
+}
