@@ -1,0 +1,65 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.baexxbin'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.testng:testng:7.7.0'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// 테스트용 H2 데이터베이스
+	testImplementation 'com.h2database:h2'
+	// Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// Jackson
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
+
+	// Spring Security, OAuth2.0
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springframework.security:spring-security-oauth2-client'
+
+	// OAuth2 JOSE
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
+
+	// jwt
+//	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+	systemProperty "jasypt.encryptor.password", System.getProperties().get("jasypt.encryptor.password")
+}

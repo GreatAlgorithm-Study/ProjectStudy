@@ -1,0 +1,59 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    session:
+      timeout: 3600
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  application:
+    name: wishrise
+  datasource:
+    url: ENC(1ukvi6Dtk8zByTpD7hb/NNHMkW6YWvCkdSx/D9my9/N+2vSM37Sqro3q71y94kYW0gwYrAHb1lCSpQCdiJdfAqPi1adx6lCDNm5+9NmSgxk8IfzqaqBjBLFuAN5VNAbdIr/KEsYfuWQ=)
+    username: ENC(i8eu6VKIijmLJTGRI63pYA==)
+    password: ENC(/hiKFjadIbsEdQMsKX502pz3EdLup+VM)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  web:
+    resources:
+      static-locations: classpath:/static/
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+        use-new-id-generator-mappings: false
+  jasypt:
+    encryptor:
+      bean: jasyptStringEncryptor
+      password: ${ENCRYPT_KEY}
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ENC(JYMRJu34p4awYv2h4FgG4w==)
+  profiles:
+    active: default
+    include: oauth
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-custom-ui.html       # swagger-ui 접근 경로 (default)
+    groups-order: DESC
+    tags-sorter: alpha
+  api-docs:
+    path: /api-docs                     # openAPI 접근 경로
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:                       # 해당 패턴에 매칭되는 컨트롤러만 swagger ui 노출
+    - /api/**

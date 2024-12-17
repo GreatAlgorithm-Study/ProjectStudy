@@ -1,0 +1,33 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ENC(qn57kp4BIdv04hfpVzYAjl8AiDGJWOuZn/yVWBw/FIdw1aKed7mNU6ItBq9Rdmk7aUDLBT8CizKf9xgFtOjUybPxa8/bsjS7nHv6wWWcQS3YOcXOLVxDSw==)
+            client-secret: ENC(1A/ZxBydqNWsqDKxPumAj8wziltaWv5iyu0jmY5HJeqeuF2GPXYhmTPaF/IigEyt)
+            scope:
+              - email
+              - profile
+              - openid
+          kakao:
+            client-id: ENC(BUcd8j9my8c+BOIkwmJEC/jfFkAWd5dOZwyNCAKb7Db8v3tiVg1vnB9FGcm1/y7I)
+            client-secret: ENC(fNoCvNCjPzycRO3YQ+y8nd1EsYCmAawzSygRD1Yxk6xabKnG+ykRLS4Z1nxMPqvn)
+            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - account_email
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+      resourceserver:
+        jwt:
+          secret: ENC(IjyRDp1E4HjZaypNXP6XFypAcCsaZN0SSFbNLeJRAyBaxK4slXnLngtSYSN8h/eWm+No9CxHMzNqp3uVBK+J3DnqyAealULATFKPScuXO9ua07cuZzwkHnEmxcWrOBMki2V9u6+2KVTy/IsCs686WdBtXWGEyg5AB+DMvjC4bvV3UMnoJS0YEUGc1aIi129H)
+#          expiration_time: 86400000 #1일
