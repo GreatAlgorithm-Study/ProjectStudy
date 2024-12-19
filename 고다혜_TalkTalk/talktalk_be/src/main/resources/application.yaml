@@ -1,3 +1,6 @@
+#logging:
+#  config: classpath:log4j2.xml
+
 spring:
   profiles:
     include: oauth
@@ -17,3 +20,9 @@ spring:
 
   config:
     import: optional:file:.env[.properties]
+
+oauth:
+  kakao:
+    rest_api: ${KAKAO_REST_API_KEY}
+    redirect_uri: ${KAKAO_REDIRECT_URI}
+    client_secret: ${KAKAO_CLIENT_SECRET}
