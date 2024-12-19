@@ -1,4 +1,4 @@
-package com.projectStudy.jewan;
+package com.projectStudy.kkogitcogit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
