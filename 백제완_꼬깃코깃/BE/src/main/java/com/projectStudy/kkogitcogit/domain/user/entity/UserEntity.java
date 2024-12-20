@@ -1,7 +1,7 @@
-package com.projectStudy.kkogitcogit.domain.member.entity;
+package com.projectStudy.kkogitcogit.domain.user.entity;
 
 import com.projectStudy.kkogitcogit.domain.common.BaseTimeEntity;
-import com.projectStudy.kkogitcogit.domain.member.Role;
+import com.projectStudy.kkogitcogit.domain.user.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

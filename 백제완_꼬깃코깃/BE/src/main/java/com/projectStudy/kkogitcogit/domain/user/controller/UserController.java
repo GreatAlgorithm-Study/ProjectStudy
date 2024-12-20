@@ -1,8 +1,8 @@
-package com.projectStudy.kkogitcogit.domain.member.controller;
+package com.projectStudy.kkogitcogit.domain.user.controller;
 
-import com.projectStudy.kkogitcogit.domain.member.dto.request.UserJoinRequest;
-import com.projectStudy.kkogitcogit.domain.member.dto.response.UserJoinResponse;
-import com.projectStudy.kkogitcogit.domain.member.service.UserServiceImpl;
+import com.projectStudy.kkogitcogit.domain.user.dto.request.UserJoinRequest;
+import com.projectStudy.kkogitcogit.domain.user.dto.response.UserJoinResponse;
+import com.projectStudy.kkogitcogit.domain.user.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

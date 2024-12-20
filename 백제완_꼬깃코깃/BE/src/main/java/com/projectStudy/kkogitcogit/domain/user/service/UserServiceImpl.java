@@ -1,9 +1,9 @@
-package com.projectStudy.kkogitcogit.domain.member.service;
+package com.projectStudy.kkogitcogit.domain.user.service;
 
-import com.projectStudy.kkogitcogit.domain.member.dto.request.UserJoinRequest;
-import com.projectStudy.kkogitcogit.domain.member.dto.response.UserJoinResponse;
-import com.projectStudy.kkogitcogit.domain.member.entity.UserEntity;
-import com.projectStudy.kkogitcogit.domain.member.repository.UserRepository;
+import com.projectStudy.kkogitcogit.domain.user.dto.request.UserJoinRequest;
+import com.projectStudy.kkogitcogit.domain.user.dto.response.UserJoinResponse;
+import com.projectStudy.kkogitcogit.domain.user.entity.UserEntity;
+import com.projectStudy.kkogitcogit.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

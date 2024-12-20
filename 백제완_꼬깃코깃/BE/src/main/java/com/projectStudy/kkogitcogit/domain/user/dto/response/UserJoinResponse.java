@@ -1,6 +1,6 @@
-package com.projectStudy.kkogitcogit.domain.member.dto.response;
+package com.projectStudy.kkogitcogit.domain.user.dto.response;
 
-import com.projectStudy.kkogitcogit.domain.member.entity.UserEntity;
+import com.projectStudy.kkogitcogit.domain.user.entity.UserEntity;
 import java.util.UUID;
 
 public record UserJoinResponse(

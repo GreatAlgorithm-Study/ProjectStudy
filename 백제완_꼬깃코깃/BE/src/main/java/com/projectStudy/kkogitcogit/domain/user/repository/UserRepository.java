@@ -1,6 +1,6 @@
-package com.projectStudy.kkogitcogit.domain.member.repository;
+package com.projectStudy.kkogitcogit.domain.user.repository;
 
-import com.projectStudy.kkogitcogit.domain.member.entity.UserEntity;
+import com.projectStudy.kkogitcogit.domain.user.entity.UserEntity;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
-package com.projectStudy.kkogitcogit.domain.member.dto.request;
+package com.projectStudy.kkogitcogit.domain.user.dto.request;
 
-import com.projectStudy.kkogitcogit.domain.member.entity.UserEntity;
+import com.projectStudy.kkogitcogit.domain.user.entity.UserEntity;
 
 public record UserJoinRequest(
         String email,

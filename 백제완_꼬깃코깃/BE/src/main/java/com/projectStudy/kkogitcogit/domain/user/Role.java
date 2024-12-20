@@ -1,4 +1,4 @@
-package com.projectStudy.kkogitcogit.domain.member;
+package com.projectStudy.kkogitcogit.domain.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
