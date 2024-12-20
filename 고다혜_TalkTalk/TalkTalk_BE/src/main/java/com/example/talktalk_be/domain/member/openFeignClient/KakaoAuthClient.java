@@ -1,4 +1,4 @@
-package com.example.talktalk_be.domain.openFeignClient;
+package com.example.talktalk_be.domain.member.openFeignClient;
 
 import com.example.talktalk_be.domain.member.dto.response.KakaoTokenResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
