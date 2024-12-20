@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/*
+ * 비즈니스 로직 처리
+ * */
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

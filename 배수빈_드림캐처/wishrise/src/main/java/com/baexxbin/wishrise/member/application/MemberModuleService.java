@@ -10,6 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
+/*
+* 데이터 접근과 관련된 작업 처리
+* */
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
