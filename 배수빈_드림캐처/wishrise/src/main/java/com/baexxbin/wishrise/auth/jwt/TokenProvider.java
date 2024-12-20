@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -29,7 +28,7 @@ import static com.baexxbin.wishrise.global.exception.ErrorCode.INVALID_JWT_SIGNA
 import static com.baexxbin.wishrise.global.exception.ErrorCode.INVALID_TOKEN;
 
 /*
-* JWT 생성 검증 파싱
+* JWT 생성 및 검증만 담당하는 도메인 중립적인 '토큰 처리기' 역할
 * */
 
 @Slf4j
@@ -90,52 +89,22 @@ public class TokenProvider {
                 .compact();
     }
 
-//    public Authentication getAuthentication(String token) {
-//        Claims claims = parseClaims(token);
-//        List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
-//
-//        // 2. security의 User 객체 생성
-//        User principal = new User(claims.getSubject(), "", authorities);
-//        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
-//    }
 
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
+
+        // 1. JWT에서 정보 추출
+        String userId = claims.getSubject();
+        String role = claims.get("role", String.class);
+
+        // 2. 권한 생성
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(claims.get(KEY_ROLE).toString()));
+                new SimpleGrantedAuthority(role)
+        );
 
-        User principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        // 3. JWT의 정보 Authentication에 전달
+        return new UsernamePasswordAuthenticationToken(userId, null, authorities);
     }
-
-//    private List<SimpleGrantedAuthority> getAuthorities(Claims claims) {
-//        return Collections.singletonList(new SimpleGrantedAuthority(
-//                claims.get(KEY_ROLE).toString()));
-//    }
-
-//    // 3. accessToken 재발급
-//    public String reissueAccessToken(String accessToken) {
-//        if (StringUtils.hasText(accessToken)) {
-//            Token token = tokenService.findByAccessTokenOrThrow(accessToken);
-//            String refreshToken = token.getRefreshToken();
-//
-//            if (validateToken(refreshToken)) {
-//                String reissueAccessToken = generateAccessToken(getAuthentication(refreshToken));
-//                tokenService.updateToken(reissueAccessToken, token);
-//                return reissueAccessToken;
-//            }
-//        }
-//        return null;
-//    }
-
-//    public boolean validateToken(String token) {
-//        if (!StringUtils.hasText(token)) {
-//            return false;
-//        }
-//
-//        Claims claims = parseClaims(token);
-//        return claims.getExpiration().after(new Date());
-//    }
 
     public boolean validateToken(String token) {
         if (!StringUtils.hasText(token)) {
