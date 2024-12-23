@@ -1,7 +1,9 @@
 package com.projectStudy.kkogitcogit.domain.user.controller;
 
 import com.projectStudy.kkogitcogit.domain.user.dto.request.UserJoinRequest;
+import com.projectStudy.kkogitcogit.domain.user.dto.request.UserLoginRequest;
 import com.projectStudy.kkogitcogit.domain.user.dto.response.UserJoinResponse;
+import com.projectStudy.kkogitcogit.domain.user.dto.response.UserLoginResponse;
 import com.projectStudy.kkogitcogit.domain.user.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,5 +24,11 @@ public class UserController {
     public UserJoinResponse join(@RequestBody UserJoinRequest userJoinRequest) {
         log.info("회원 가입 요청: {}", userJoinRequest);
         return userService.join(userJoinRequest);
+    }
+
+    @PostMapping("/login")
+    public UserLoginResponse login(@RequestBody UserLoginRequest userLoginRequest) {
+        log.info("로그인 요청: {}", userLoginRequest);
+        return userService.login(userLoginRequest);
     }
 }

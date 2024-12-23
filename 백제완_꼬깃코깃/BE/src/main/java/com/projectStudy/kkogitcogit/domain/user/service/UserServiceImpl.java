@@ -1,7 +1,9 @@
 package com.projectStudy.kkogitcogit.domain.user.service;
 
 import com.projectStudy.kkogitcogit.domain.user.dto.request.UserJoinRequest;
+import com.projectStudy.kkogitcogit.domain.user.dto.request.UserLoginRequest;
 import com.projectStudy.kkogitcogit.domain.user.dto.response.UserJoinResponse;
+import com.projectStudy.kkogitcogit.domain.user.dto.response.UserLoginResponse;
 import com.projectStudy.kkogitcogit.domain.user.entity.UserEntity;
 import com.projectStudy.kkogitcogit.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -25,5 +27,15 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userJoinRequest.toEntity(bCryptPasswordEncoder);
         repository.save(userEntity);
         return new UserJoinResponse(userEntity);
+    }
+
+    @Override
+    public UserLoginResponse login(UserLoginRequest userLoginRequest) {
+        UserEntity userEntity = repository.findByEmail(userLoginRequest.email())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        if (!bCryptPasswordEncoder.matches(userLoginRequest.password(), userEntity.getPassword())) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+        return new UserLoginResponse(userEntity);
     }
 }
