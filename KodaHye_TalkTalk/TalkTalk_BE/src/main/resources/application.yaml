@@ -21,8 +21,19 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
+jwt:
+  secretKey: ${JWT_SECRET_KEY} # 서버가 가지고 있는 개인 키 (secretKey를 통해 JWT 생성 시 암호화)
+  access:
+    expiration: 3600000 # 1시간
+    header: Authorization
+  refresh:
+    expiration: 1209600000 # 2wn
+    header: Authorization-refresh
+
 oauth:
-  kakao:
-    rest_api: ${KAKAO_REST_API_KEY}
-    redirect_uri: ${KAKAO_REDIRECT_URI}
-    client_secret: ${KAKAO_CLIENT_SECRET}
+  client:
+    registration:
+      kakao:
+        rest_api: ${KAKAO_REST_API_KEY}
+        redirect_uri: ${KAKAO_REDIRECT_URI}
+        client_secret: ${KAKAO_CLIENT_SECRET}
