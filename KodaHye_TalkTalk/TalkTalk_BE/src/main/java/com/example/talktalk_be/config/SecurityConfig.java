@@ -1,6 +1,8 @@
 package com.example.talktalk_be.config;
 
+import com.example.talktalk_be.domain.member.persistence.respository.MemberRepository;
 import com.example.talktalk_be.domain.member.service.LoginService;
+import com.example.talktalk_be.global.jwt.JwtService;
 import com.example.talktalk_be.global.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import com.example.talktalk_be.global.login.handler.LoginFailureHandler;
 import com.example.talktalk_be.global.login.handler.LoginSuccessJWTProvideHandler;
@@ -28,6 +30,8 @@ import org.springframework.security.web.server.ui.LoginPageGeneratingWebFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtService jwtService;
+    private final MemberRepository memberRepository;
     private final LoginService loginService;
     private final ObjectMapper objectMapper;
 
@@ -55,7 +59,7 @@ public class SecurityConfig {
 
     @Bean
     public LoginSuccessJWTProvideHandler loginSuccessJWTProvideHandler() {
-        return new LoginSuccessJWTProvideHandler();
+        return new LoginSuccessJWTProvideHandler(jwtService, memberRepository);
     }
 
     @Bean
