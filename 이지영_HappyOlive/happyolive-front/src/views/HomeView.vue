@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import LoginItem from '@/components/LoginItem.vue'
+import LogoutHomeItem from '@/components/LogoutHomeItem.vue'
+import LoginHomeItem from '@/components/LoginHomeItem.vue'
 import { useCounterStore } from '@/stores/counter'
 import { jwtDecode } from 'jwt-decode'
 import { ref } from 'vue'
@@ -7,11 +9,6 @@ import axios from 'axios'
 
 const store = useCounterStore()
 const accessToken = localStorage.getItem('accessToken')
-const userinfo = ''
-if (accessToken != null) {
-  const userinfo = jwtDecode(accessToken)
-  console.log(userinfo)
-}
 const refreshToken = localStorage.getItem('refreshToken')
 
 const jwtTest = function () {
@@ -42,5 +39,7 @@ const jwtTest = function () {
         <h5>jwtTest</h5>
       </button>
     </div>
+    <LogoutHomeItem v-if="!accessToken"> </LogoutHomeItem>
+    <LoginHomeItem v-if="accessToken"> </LoginHomeItem>
   </main>
 </template>
