@@ -25,7 +25,7 @@ const loginTest = function () {
   // const atk = `Bearer ${accessToken}`;
   axios({
     method: 'get',
-    url: `${store.API_URL}/api/user/login/test`,
+    url: `${store.API_URL}/oauth2/authorization/google`,
   })
     .then((res) => {
       connectData.value = res.data
@@ -44,8 +44,8 @@ const loginTest = function () {
       </button>
     </div>
     <div>
-      <button @click="print()">
-        <h5>loginOut</h5>
+      <button @click="loginTest()">
+        <h5>loginTest</h5>
       </button>
     </div>
   </div>
