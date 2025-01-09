@@ -1,4 +1,4 @@
-package com.yeong.happyolive.global.oauth2.handler;
+package com.yeong.happyolive.global.handler;
 
 import com.yeong.happyolive.auth.domain.User;
 import com.yeong.happyolive.auth.repository.UserRepository;
@@ -53,13 +53,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             log.info("로그인에 성공하였습니다. RefreshToken : {}", refreshToken);
             log.info("발급된 AccessToken 만료 기간 : {}", accessTokenExpiration);
 
-//            response.sendRedirect("/api/login-success/"
-//                    +accessToken
-//                    +"/"
-//                    + refreshToken);
-//            response.setStatus(302);
-
-//            jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답
 
             // 토큰 전달을 위한 redirect
             String redirectUrl = UriComponentsBuilder.fromUriString(URI)

@@ -1,4 +1,4 @@
-package com.yeong.happyolive.global.oauth2.handler;
+package com.yeong.happyolive.global.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,5 +1,6 @@
 package com.yeong.happyolive.global.jwt.filter;
 
+import com.yeong.happyolive.global.utils.ErrorCode;
 import com.yeong.happyolive.auth.domain.User;
 import com.yeong.happyolive.auth.repository.UserRepository;
 import com.yeong.happyolive.global.jwt.service.JwtService;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -19,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Optional;
 
 /**
  * Jwt 인증 필터
@@ -42,6 +46,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
+    /////////////////////////////////////////////////
+    @Value("${jwt.access.header}")
+    private String accessHeader;
+    private static final String BEARER = "Bearer ";
+
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     @Override
@@ -59,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 사용자의 요청 헤더에 RefreshToken이 있는 경우는, AccessToken이 만료되어 요청한 경우밖에 없다.
         // 따라서, 위의 경우를 제외하면 추출한 refreshToken은 모두 null
         String refreshToken = jwtService.extractRefreshToken(request)
-                .filter(accessToken -> jwtService.isTokenValid(accessToken, request))
+                .filter(rtk -> jwtService.isTokenValid(rtk, request))
                 .orElse(null);
         log.info("리프레시 토큰 여부 : " + refreshToken);
 
@@ -126,11 +135,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                                   FilterChain filterChain) throws ServletException, IOException {
         log.info("checkAccessTokenAndAuthentication() 호출");
 
-        jwtService.extractAccessToken(request)
-                .filter(accessToken -> jwtService.isTokenValid(accessToken, request))
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> userRepository.findByEmailAndIsDeleted(email, 0)
-                                .ifPresent((user)-> saveAuthentication(user, request))));
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow();
+
+//        Enumeration<String> headerNames = request.getHeaderNames();
+//        while (headerNames.hasMoreElements()) {
+//            String headerName = headerNames.nextElement();
+//            log.info("{} : {}", headerName, request.getHeader(headerName));
+//        }
+
+
+        // Access Token이 존재하는지 확인
+        if (accessToken.isEmpty()) {
+            log.info(">> ATK가 존재하지 않음 : "+ accessToken);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Token is missing");
+            return;
+        }
+
+        // 토큰이 유효하지 않은 경우 에러 반환 후 종료
+        if (!jwtService.isTokenValid(accessToken, request)) {
+            log.info(">> 유효하지 않은 ATK");
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Access Token");
+            request.setAttribute("exceptionCode", ErrorCode.EXPIRED_TOKEN.getCode());
+            request.setAttribute("exceptionMessage", ErrorCode.EXPIRED_TOKEN.getMessage());
+            response.sendError(ErrorCode.EXPIRED_TOKEN.getCode(), ErrorCode.EXPIRED_TOKEN.getMessage());
+            return;
+        }
+
+        // 유효한 ATK
+        String email = jwtService.extractEmail(accessToken).get();
+        Optional<User> userOptional = userRepository.findByEmailAndIsDeleted(email, 0);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            saveAuthentication(user, request);
+        }
 
         filterChain.doFilter(request, response);
     }

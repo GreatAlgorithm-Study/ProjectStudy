@@ -17,52 +17,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 
 @Slf4j
-@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/auth")
 public class LoginController {
     private final UserService userService;
     private final JwtService jwtService;
 
-    @Value("${jwt.login-success-uri}")
-    private String login_success_uri;
-    private String rd_uri;
-
-    @GetMapping("/api/login-success")
-    public void success(@RequestParam(value="atk") String atk, @RequestParam(value="rtk") String rtk, HttpServletResponse response) throws IOException {
-        log.info("rd_uri >> " +rd_uri);
-        log.info("atk >> " + atk);
-        log.info("rtk >> " + rtk);
-
-        String redirectUrl = UriComponentsBuilder.fromUriString(login_success_uri)
-                .queryParam("atk", atk)
-                .queryParam("rtk", rtk)
-                .queryParam("redirect_uri", rd_uri)
-                .build().toUriString();
-//        String redirectUrl = login_success_uri+atk+"/"+rtk;
-        response.sendRedirect(redirectUrl);
+    @GetMapping("/jwtTest")
+    public ResponseEntity<?> jwtTest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        log.info("jwtTest 컨트롤러 진입 ===================== ");
+        return new ResponseEntity<>("Sended JWT successfully", HttpStatus.OK);
     }
 
-
-    /**
-     * 소셜로그인 - Google
-     * */
-    @GetMapping("/api/user/login/google")
-    public ResponseEntity<?> googleLogin(@RequestParam("redirect_uri") String redirect_uri, HttpServletResponse response) throws IOException {
-        rd_uri = redirect_uri;
-        log.info("구글 소셜로그인 요청 프론트 param uri >> " + rd_uri);
-        response.sendRedirect("/oauth2/authorization/google");
-
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
-    @GetMapping("/api/user/login/test")
-    public ResponseEntity<?> testSignUp(HttpServletResponse response) throws IOException {
-        log.info(">> loginTest");
-//        response.sendRedirect("/oauth2/authorization/google");
-//        userService.signUp();
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
 
     /**
      * 로그아웃
