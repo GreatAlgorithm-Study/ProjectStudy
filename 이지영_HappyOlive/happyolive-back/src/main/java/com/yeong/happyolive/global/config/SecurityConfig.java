@@ -94,7 +94,7 @@ public class SecurityConfig{
                 // == 예외 핸들링 == //
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint) //customEntryPoint
-                                .accessDeniedHandler(jwtAccessDeniedHandler) // cutomAccessDeniedHandler
+                                .accessDeniedHandler(jwtAccessDeniedHandler)                    // cutomAccessDeniedHandler
                 );
 
         return http.build();

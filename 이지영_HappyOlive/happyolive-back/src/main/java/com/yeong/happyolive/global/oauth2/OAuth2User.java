@@ -10,12 +10,13 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * DefaultOAuth2User를 상속하고, email과 role 필드를 추가로 가진다.
+ * DefaultOAuth2User를 상속하고, nickname, email과 role 필드를 추가로 가진다.
  */
 @Getter
 @ToString
 public class OAuth2User extends DefaultOAuth2User {
 
+    private String nickname;
     private String email;
     private Role role;
 
@@ -29,8 +30,9 @@ public class OAuth2User extends DefaultOAuth2User {
      */
     public OAuth2User(Collection<? extends GrantedAuthority> authorities,
                       Map<String, Object> attributes, String nameAttributeKey,
-                      String email, Role role) {
+                      String nickname, String email, Role role) {
         super(authorities, attributes, nameAttributeKey);
+        this.nickname = nickname;
         this.email = email;
         this.role = role;
     }

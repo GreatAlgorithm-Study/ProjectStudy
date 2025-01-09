@@ -58,6 +58,7 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
                 Collections.singleton(new SimpleGrantedAuthority(createdUser.getRole().getKey())),
                 attributes,
                 extractAttributes.getNameAttributeKey(),
+                createdUser.getNickname(),
                 createdUser.getEmail(),
                 createdUser.getRole()
         );

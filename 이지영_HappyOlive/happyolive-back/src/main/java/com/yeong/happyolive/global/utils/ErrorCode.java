@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
-    UNKNOWN_ERROR(400, "unknown_error"),
+    INVALID_TOKEN(401, "Invalid Access Token"),
     NO_VALUE_PRESENT(400, "No value present"),
     MISSING_PARTS(400, "The token was expected to have 3 parts, but got 2"),
     EXPIRED_TOKEN(401, "The Token has expired"),

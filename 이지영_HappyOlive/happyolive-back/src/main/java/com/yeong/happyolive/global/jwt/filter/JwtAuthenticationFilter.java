@@ -99,13 +99,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("리프레시 토큰 받음");
         String accessToken = jwtService.extractAccessToken(request).orElseThrow();
         String email = jwtService.extractEmail(accessToken).get();
+        String nickname = jwtService.extractNickname(accessToken).get();
         String myRefreshToken= jwtService.getRedisRefreshToken(email);
         if (refreshToken.equals(myRefreshToken)) {
             log.info("--> 일치하는 리프레시 토큰 존재  >> 액세스 토큰 & 리프레시 토큰 재발급 진행");
             // 이전 ATK는 로그아웃 처리
             jwtService.expireAccessToken(accessToken);
             String reIssuedRefreshToken = reIssueRefreshToken(email);
-            jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(email), reIssuedRefreshToken);
+            jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(nickname, email), reIssuedRefreshToken);
         }
         filterChain.doFilter(request, response);
 
@@ -137,27 +138,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String accessToken = jwtService.extractAccessToken(request).orElseThrow();
 
-//        Enumeration<String> headerNames = request.getHeaderNames();
-//        while (headerNames.hasMoreElements()) {
-//            String headerName = headerNames.nextElement();
-//            log.info("{} : {}", headerName, request.getHeader(headerName));
+
+//        // Access Token이 존재하는지 확인
+//        if (accessToken.isBlank()) {
+//            log.info(">> ATK가 존재하지 않음 : "+ accessToken);
+//            response.sendError(ErrorCode.NO_VALUE_PRESENT.getCode(), ErrorCode.NO_VALUE_PRESENT.getMessage());
+//            return;
 //        }
 
-
-        // Access Token이 존재하는지 확인
-        if (accessToken.isEmpty()) {
-            log.info(">> ATK가 존재하지 않음 : "+ accessToken);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Token is missing");
-            return;
-        }
-
-        // 토큰이 유효하지 않은 경우 에러 반환 후 종료
+        // ATK 토큰이 유효하지 않은 경우 에러 반환 후 종료
         if (!jwtService.isTokenValid(accessToken, request)) {
             log.info(">> 유효하지 않은 ATK");
-//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Access Token");
-            request.setAttribute("exceptionCode", ErrorCode.EXPIRED_TOKEN.getCode());
-            request.setAttribute("exceptionMessage", ErrorCode.EXPIRED_TOKEN.getMessage());
-            response.sendError(ErrorCode.EXPIRED_TOKEN.getCode(), ErrorCode.EXPIRED_TOKEN.getMessage());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Access Token");
             return;
         }
 
