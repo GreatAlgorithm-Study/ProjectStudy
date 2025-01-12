@@ -1,4 +1,4 @@
-package com.example.talktalk_be.global.jwt;
+package com.example.talktalk_be.global.jwt.service;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +13,6 @@ public interface JwtService {
     void updateRefreshToken(String username, String refreshToken);
     void destroyRefreshToken(String username);
 
-//    void sendToken(HttpServletResponse response, String accessToken, String refreshToken) throws Exception;
     void sendAccessTokenAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken);
     void sendAccessToken(HttpServletResponse response, String accessToken);
 

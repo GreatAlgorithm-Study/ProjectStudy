@@ -1,4 +1,4 @@
-package com.example.talktalk_be.global.jwt;
+package com.example.talktalk_be.global.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -39,7 +39,7 @@ public class JwtServiceImpl implements JwtService{
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String USERNAME_CLAIM = "username";
-    private static final String BEARER = "Bearer";
+    private static final String BEARER = "Bearer ";
 
     private final MemberRepository memberRepository;
 

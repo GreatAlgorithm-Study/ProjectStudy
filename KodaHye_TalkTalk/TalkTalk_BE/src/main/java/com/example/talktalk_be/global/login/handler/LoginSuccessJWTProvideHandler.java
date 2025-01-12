@@ -1,7 +1,7 @@
 package com.example.talktalk_be.global.login.handler;
 
 import com.example.talktalk_be.domain.member.persistence.respository.MemberRepository;
-import com.example.talktalk_be.global.jwt.JwtService;
+import com.example.talktalk_be.global.jwt.service.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
